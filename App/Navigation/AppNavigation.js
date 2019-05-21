@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation'
 import ScreenExample from '../Screens/ScreenExample'
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
 import configureStore from "../Redux/configureStore"
 import styles from './Styles/NavigationStyles'
 import { Provider } from "react-redux";
@@ -24,7 +24,7 @@ let Navigation = createAppContainer(PrimaryNav)
 
 export default class App extends Component {
   componentDidMount(){
-    SplashScreen.hide();
+    SplashScreen.hide()
   }
   render() {
     return (
