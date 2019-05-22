@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text , Image ,  View , StyleSheet } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import { connect } from "react-redux";
+import { authGetToken } from '../Redux/actions/auth';
 
 const styles = StyleSheet.create({
     slide : {
@@ -41,9 +43,16 @@ const slides = [
   }
 ];
 
-export default class App extends React.Component {
+class Slider extends React.Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillMount() {
+    this.props.getToken()
+    if(this.props.auth) {
+      this.props.navigation.navigate('Main')
+    }
   }
   _renderItem = (item) => {
     return (
@@ -63,3 +72,14 @@ export default class App extends React.Component {
 
   
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getToken : () => dispatch(authGetToken())
+  }
+}
+const mapStateToProps = (state) => {
+  return {
+    auth : state.auth.token != null 
+  }
+}
+export default connect(mapStateToProps , mapDispatchToProps)(Slider)

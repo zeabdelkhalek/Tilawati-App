@@ -7,6 +7,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.4.0",
+    "apisauce": "^1.0.2",
     "prop-types": "^15.5.10",
     "react": "16.8.3",
     "react-native": "0.59.5",
@@ -17,7 +19,8 @@
     "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.8.1",
     "react-redux": "^5.0.2",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
