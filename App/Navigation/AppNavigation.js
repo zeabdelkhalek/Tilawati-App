@@ -4,11 +4,9 @@ import SplashScreen from 'react-native-splash-screen';
 import configureStore from '../Redux/configureStore';
 import styles from './Styles/NavigationStyles';
 import { Provider } from 'react-redux';
-import LoginScreen from '../Screens/LoginScreen';
-import RegisterScreen from '../Screens/RegisterScreen';
-import IntroSliderScreen from '../Screens/IntroSliderScreen';
-import MainScreen from '../Screens/MainScreen';
-
+import { LoginScreen, RegisterScreen, IntroSliderScreen, MainScreen } from '../Screens';
+import { Header } from '../Components/Header';
+import { Provider as PaperProvider } from 'react-native-paper';
 const store = configureStore();
 
 // Manifest of possible screens
@@ -17,15 +15,17 @@ const AppNavigator = createStackNavigator(
 		Intro: { screen: IntroSliderScreen },
 		Login: { screen: LoginScreen },
 		Register: { screen: RegisterScreen },
-		Main: { screen: MainScreen }
+		Main: {
+			screen: MainScreen,
+			// navigationOptions: {
+			// 	header: Header
+			// }
+		}
 	},
 	{
 		// Default config for all screens
-		headerMode: 'none',
+		// headerMode: 'screen',
 		initialRouteName: 'Intro',
-		navigationOptions: {
-			headerStyle: styles.header
-		}
 	}
 );
 
@@ -38,7 +38,9 @@ export default class App extends Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<Navigation />
+				<PaperProvider>
+					<Navigation />
+				</PaperProvider>
 			</Provider>
 		);
 	}

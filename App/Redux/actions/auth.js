@@ -15,7 +15,7 @@ export const tryAuth = (authData) => {
           dispatch(loginError(res.data[0].message));
           reject() ; 
 				} else {          
-					dispatch(authStoreToken(res.data.access_token.token, res.data.access_token.refreshToken));
+					dispatch(authStoreToken(res.data.accessToken.token, res.data.accessToken.refreshToken));
           resolve() ; 
 				}
 			});
@@ -39,7 +39,7 @@ export const tryRegister = (Data) => {
 				} else {
 					console.warn(res.data);
 					          
-					dispatch(authStoreToken(res.data.access_token.token, res.data.access_token.refreshToken));
+					dispatch(authStoreToken(res.data.accessToken.token, res.data.accessToken.refreshToken));
           resolve() ; 
 				}
 			});
@@ -51,7 +51,7 @@ export const tryRegister = (Data) => {
 export const authStoreToken = (token, refreshToken) => {
 	return (dispatch) => {
 		const now = new Date();
-		const expiryDate = now.getTime() + 10 * 1000;
+		const expiryDate = now.getTime() + 3600 * 1000;
 		dispatch(authSetToken(token, expiryDate));
 		AsyncStorage.setItem('ap:auth:token', token);
 		AsyncStorage.setItem('ap:auth:expiryDate', expiryDate.toString());
@@ -75,7 +75,10 @@ export const authGetToken = () => {
 			if (!token || new Date(expiryDate) <= new Date()) {
 				let fetchedToken;
 				AsyncStorage.getItem('ap:auth:token')
-					.catch((err) => reject())
+					.catch((err) => {
+						reject(err)
+					}
+					)
 					.then((tokenFromStorage) => {
 						fetchedToken = tokenFromStorage;
 						if (!tokenFromStorage) {

@@ -50,9 +50,12 @@ class Slider extends React.Component {
 
   componentWillMount() {
     this.props.getToken()
-    if(this.props.auth) {
-      this.props.navigation.navigate('Main')
-    }
+      .catch(() => {
+        alert('get token failled')
+      })
+      .then((token) => {
+        this.props.navigation.navigate('Main')
+      })     
   }
   _renderItem = (item) => {
     return (
@@ -78,8 +81,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 const mapStateToProps = (state) => {
+  const authState = state.auth.token ? true : false 
   return {
-    auth : state.auth.token != null 
+    auth : authState 
   }
 }
-export default connect(mapStateToProps , mapDispatchToProps)(Slider)
+export default connect(null , mapDispatchToProps)(Slider)

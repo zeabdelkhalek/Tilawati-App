@@ -1,20 +1,14 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
 
-class MainScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
+import { createAppContainer } from 'react-navigation';
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
-  render() {
-    return (
-      <View>
-        <Text> Main </Text>
-      </View>
-    );
-  }
-}
+import { HomeScreen, SearchScreen, NotificationsScreen, SettingsScreen } from '.';
+
+const MainScreen = createMaterialBottomTabNavigator({
+	Home: HomeScreen,
+	Settings: SettingsScreen,
+	Notifications: NotificationsScreen,
+	Search: SearchScreen
+});
 
 export default MainScreen;
