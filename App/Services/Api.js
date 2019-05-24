@@ -14,5 +14,6 @@ const api = apisauce.create({
 
 export const authUser = (email, password) => api.post('login', { email, password })
 
+export const addUser = (body) => api.post('register' , {...body })
 // let's return back our create method as the default.
 	

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button , TouchableOpacity } from 'react-native';
 // import { Input, Button } from 'react-native-elements';
 import Styles from './Styles/LoginStyle';
 import { connect } from 'react-redux';
@@ -23,6 +23,9 @@ class LoginScreen extends Component {
 			.then(() => this.props.navigation.navigate('Main'))
 			.catch(() => alert('Authentification failed ! please try again '))
 	};
+	registerNavigate = () => {
+		this.props.navigation.navigate('Register')
+	}
 	render() {
 		let Error = null;
 		if (this.props.loginError) {
@@ -44,6 +47,9 @@ class LoginScreen extends Component {
 				/>
 				<Button onPress={this.submitLogin} title="تسجيل الدخول" />
 				{Error}
+				<TouchableOpacity onPress={this.registerNavigate} >
+					<Text> سجل الآن </Text>
+				</TouchableOpacity>
 			</View>
 		);
 	}

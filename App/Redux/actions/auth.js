@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN, LOGIN_ERROR } from './actionTypes';
-import { authUser } from '../../Services/Api';
+import { authUser , addUser } from '../../Services/Api';
 
 export const tryAuth = (authData) => {
 	return (dispatch) => {
@@ -15,6 +15,30 @@ export const tryAuth = (authData) => {
           dispatch(loginError(res.data[0].message));
           reject() ; 
 				} else {          
+					dispatch(authStoreToken(res.data.access_token.token, res.data.access_token.refreshToken));
+          resolve() ; 
+				}
+			});
+    }) 
+    return promise ; 
+	};
+};
+
+export const tryRegister = (Data) => {
+	return (dispatch) => {
+    const promise = new Promise((resolve , reject) => {
+      addUser(Data)
+			.catch(err => {
+			  reject() ; 
+			})
+			// .then(res => res.json())
+			.then((res) => {
+				if (!res.ok) {
+          dispatch(loginError(res.data[0].message));
+          reject() ; 
+				} else {
+					console.warn(res.data);
+					          
 					dispatch(authStoreToken(res.data.access_token.token, res.data.access_token.refreshToken));
           resolve() ; 
 				}

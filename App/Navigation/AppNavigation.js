@@ -5,6 +5,7 @@ import configureStore from '../Redux/configureStore';
 import styles from './Styles/NavigationStyles';
 import { Provider } from 'react-redux';
 import LoginScreen from '../Screens/LoginScreen';
+import RegisterScreen from '../Screens/RegisterScreen';
 import IntroSliderScreen from '../Screens/IntroSliderScreen';
 import MainScreen from '../Screens/MainScreen';
 
@@ -15,6 +16,7 @@ const AppNavigator = createStackNavigator(
 	{
 		Intro: { screen: IntroSliderScreen },
 		Login: { screen: LoginScreen },
+		Register: { screen: RegisterScreen },
 		Main: { screen: MainScreen }
 	},
 	{
