@@ -12,7 +12,7 @@ export const tryAuth = (authData) => {
 			// .then(res => res.json())
 			.then((res) => {
 				if (!res.ok) {
-          dispatch(loginError(res.data[0].message));
+          dispatch(loginError(res.data[0]));
           reject() ; 
 				} else {          
 					dispatch(authStoreToken(res.data.accessToken.token, res.data.accessToken.refreshToken));

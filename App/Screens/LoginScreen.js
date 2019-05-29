@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button , TouchableOpacity } from 'react-native';
-// import { Input, Button } from 'react-native-elements';
-import Styles from './Styles/LoginStyle';
+import { View, Text, TouchableOpacity } from 'react-native';
+import styles from './Styles/LoginStyle';
 import { connect } from 'react-redux';
 import { tryAuth } from '../Redux/actions/auth';
+
+import { Avatar, Button, TextInput, IconButton } from 'react-native-paper';
 
 class LoginScreen extends Component {
 	constructor(props) {
@@ -13,43 +14,87 @@ class LoginScreen extends Component {
 			password: ''
 		};
 	}
-	componentDidMount() {}
+
 	submitLogin = () => {
 		const authData = {
 			email: this.state.email,
 			password: this.state.password
 		};
-		this.props.onTryAuth(authData)
-			.then(() => this.props.navigation.navigate('Main'))
-			.catch(() => alert('Authentification failed ! please try again '))
+		this.props.onTryAuth(authData).then(() => this.props.navigation.navigate('Main')).catch(() => {
+			if (this.props.loginError) {
+				alert(this.props.loginError);
+			}
+		});
 	};
 	registerNavigate = () => {
-		this.props.navigation.navigate('Register')
-	}
+		this.props.navigation.navigate('Register');
+	};
 	render() {
-		let Error = null;
-		if (this.props.loginError) {
-			Error = <Text styles={Styles.errorMessage}>{this.props.loginError}</Text>;
-		}
 		return (
-			<View styles={Styles.container}>
-				<Text> ادخل الأن </Text>
-				<TextInput
-					value={this.state.email}
-					onChangeText={(text) => this.setState({ email: text })}
-					placeholder="البريد الالكتروني "
-				/>
-				<TextInput
-					value={this.state.password}
-					onChangeText={(text) => this.setState({ password: text })}
-					secureTextEntry={true}
-					placeholder="كلمة السر "
-				/>
-				<Button onPress={this.submitLogin} title="تسجيل الدخول" />
-				{Error}
-				<TouchableOpacity onPress={this.registerNavigate} >
-					<Text> سجل الآن </Text>
-				</TouchableOpacity>
+			<View style={styles.container}>
+				<View style={styles.logoContainer}>
+					<Avatar.Text size={136} label="XD" />
+				</View>
+				<View style={styles.loginContainer}>
+					<View style={styles.inputContainer}>
+						<TextInput
+							error={this.props.mailError}
+							style={styles.input}
+							value={this.state.email}
+							onChangeText={(text) => this.setState({ email: text })}
+							placeholder="البريد الالكتروني "
+						/>
+						<IconButton
+							style={styles.icon}
+							icon="mail"
+							color="#009688"
+							size={30}
+							onPress={() => console.log('Pressed')}
+						/>
+					</View>
+					<View style={styles.inputContainer}>
+						<TextInput
+							error={this.props.passError}
+							style={styles.input}
+							value={this.state.password}
+							onChangeText={(text) => this.setState({ password: text })}
+							textAlign="right"
+							secureTextEntry={true}
+							placeholder="كلمة المرور "
+						/>
+						<IconButton
+							style={styles.icon}
+							icon="lock"
+							color="#009688"
+							size={30}
+							onPress={() => console.log('Pressed')}
+						/>
+					</View>
+					<View style={styles.inputContainer}>
+						<Button style={styles.button} mode="contained" onPress={this.submitLogin}>
+							تسجيل الدخول
+						</Button>
+					</View>
+					<View style={styles.forget}>
+						<Text>نسيت كلمة المرور ؟</Text>
+					</View>
+				</View>
+				<View style={styles.footerContainer}>
+					<View style={{ flexDirection: 'row-reverse', flexWrap: 'wrap' }}>
+						<Text>لا تملك حسابا بعد</Text>
+						<TouchableOpacity onPress={this.registerNavigate}>
+							<Text
+								style={{
+									fontWeight: 'bold'
+								}}
+							>
+								{' '}
+								اصبح عضوا{' '}
+							</Text>
+						</TouchableOpacity>
+						<Text>الآن</Text>
+					</View>
+				</View>
 			</View>
 		);
 	}
@@ -63,7 +108,9 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
 	return {
-		loginError: state.auth.error
+		loginError: state.auth.error.message,
+		mailError: state.auth.error.field === 'email',
+		passError: state.auth.error.field === 'password'
 	};
 };
 

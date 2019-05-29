@@ -5,7 +5,9 @@ import { createMaterialBottomTabNavigator } from "react-navigation-material-bott
 import { HomeScreen, SearchScreen, NotificationsScreen, SettingsScreen } from '.';
 
 const MainScreen = createMaterialBottomTabNavigator({
-	Home: HomeScreen,
+	Home: {
+		screen : HomeScreen , 
+	},
 	Settings: SettingsScreen,
 	Notifications: NotificationsScreen,
 	Search: SearchScreen

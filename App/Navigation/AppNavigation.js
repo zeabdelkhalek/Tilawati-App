@@ -6,7 +6,7 @@ import styles from './Styles/NavigationStyles';
 import { Provider } from 'react-redux';
 import { LoginScreen, RegisterScreen, IntroSliderScreen, MainScreen } from '../Screens';
 import { Header } from '../Components/Header';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 const store = configureStore();
 
 // Manifest of possible screens
@@ -16,7 +16,7 @@ const AppNavigator = createStackNavigator(
 		Login: { screen: LoginScreen },
 		Register: { screen: RegisterScreen },
 		Main: {
-			screen: MainScreen,
+			screen: MainScreen
 			// navigationOptions: {
 			// 	header: Header
 			// }
@@ -24,13 +24,20 @@ const AppNavigator = createStackNavigator(
 	},
 	{
 		// Default config for all screens
-		// headerMode: 'screen',
-		initialRouteName: 'Intro',
+		headerMode: 'none',
+		initialRouteName: 'Intro'
 	}
 );
 
 let Navigation = createAppContainer(AppNavigator);
 
+const theme = {
+	...DefaultTheme,
+	colors: {
+		...DefaultTheme.colors,
+		primary: '#009688'
+	}
+};
 export default class App extends Component {
 	componentDidMount() {
 		SplashScreen.hide();
@@ -38,7 +45,7 @@ export default class App extends Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<PaperProvider>
+				<PaperProvider theme={theme}>
 					<Navigation />
 				</PaperProvider>
 			</Provider>
