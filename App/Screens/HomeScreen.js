@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import Header from "../Components/Header";
+import Tilawa from '../Components/Tilawa' ; 
 class HomeScreen extends Component {
-  static navigationOptions = ({navigation}) => {
-    return {
-      header : Header 
-    }
-  }
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +13,9 @@ class HomeScreen extends Component {
   render() {
     return (
       <View>
-        <Text> hOME </Text>
+        <Header />
+        <Tilawa />
+        <Tilawa />
       </View>
     );
   }

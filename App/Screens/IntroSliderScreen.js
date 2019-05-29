@@ -49,15 +49,13 @@ class Slider extends React.Component {
   }
 
   componentWillMount() {
-    this.props.navigation.navigate('Login')
-
-    // this.props.getToken()
-    // .then((token) => {
-    //   this.props.navigation.navigate('Main')
-    // }) 
-    //   .catch(() => {
-    //     console.warn('get token failled')
-    //   })
+    this.props.getToken()
+    .then((token) => {
+      this.props.navigation.navigate('Main')
+    }) 
+      .catch(() => {
+        console.warn('get token failled')
+      })
          
   }
   _renderItem = (item) => {
