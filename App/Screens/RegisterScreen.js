@@ -3,7 +3,8 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './Styles/LoginStyle';
 import { connect } from 'react-redux';
 import { tryRegister } from '../Redux/actions/auth';
-import { Avatar, Button, TextInput, IconButton } from 'react-native-paper';
+import { Avatar, Button, TextInput, IconButton , ActivityIndicator} from 'react-native-paper';
+import { Colors } from '../Themes';
 
 class RegisterScreen extends Component {
 	constructor(props) {
@@ -13,7 +14,8 @@ class RegisterScreen extends Component {
 			last_name: '',
 			email: '',
 			password: '',
-			password_confirmation: ''
+			password_confirmation: '' , 
+			loading : false 
 		};
 	}
 
@@ -22,6 +24,8 @@ class RegisterScreen extends Component {
 	};
 
 	submitRegister = () => {
+		this.setState({ loading: true });
+
 		const authData = {
 			first_name: this.state.first_name,
 			last_name: this.state.last_name,
@@ -29,13 +33,25 @@ class RegisterScreen extends Component {
 			password: this.state.password,
 			password_confirmation: this.state.password_confirmation
 		};
-		this.props.onTryRegister(authData).then(() => this.props.navigation.navigate('Main')).catch(() => {
+		this.props.onTryRegister(authData).then(() => {
+			this.setState({ loading: false });
+			this.props.navigation.navigate('Main')
+		}).catch(() => {
+			this.setState({ loading: false });
 			if (this.props.registerError) {
 				alert(this.props.registerError);
 			}
 		});
 	};
 	render() {
+		let buttonOrNot = (
+			<Button style={styles.button} mode="contained" onPress={this.submitRegister}>
+							فتح حساب
+						</Button>
+		);
+		if (this.state.loading) {
+			buttonOrNot = <ActivityIndicator animating={true} color={Colors.primary} />;
+		}
 		return (
 			<View style={styles.container}>
 				<View style={styles.logoContainer}>
@@ -115,9 +131,7 @@ class RegisterScreen extends Component {
 						/>
 					</View>
 					<View style={styles.inputContainer}>
-						<Button style={styles.button} mode="contained" onPress={this.submitRegister}>
-							فتح حساب
-						</Button>
+						{buttonOrNot}
 					</View>
 				</View>
 				<View style={styles.footerContainer}>

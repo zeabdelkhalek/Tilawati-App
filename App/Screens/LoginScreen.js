@@ -4,32 +4,50 @@ import styles from './Styles/LoginStyle';
 import { connect } from 'react-redux';
 import { tryAuth } from '../Redux/actions/auth';
 
-import { Avatar, Button, TextInput, IconButton } from 'react-native-paper';
+import { Avatar, Button, TextInput, IconButton, ActivityIndicator } from 'react-native-paper';
+import { Colors } from '../Themes';
 
 class LoginScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			email: '',
-			password: ''
+			password: '',
+			loading: false
 		};
 	}
 
 	submitLogin = () => {
+		this.setState({ loading: true });
 		const authData = {
 			email: this.state.email,
 			password: this.state.password
 		};
-		this.props.onTryAuth(authData).then(() => this.props.navigation.navigate('Main')).catch(() => {
-			if (this.props.loginError) {
-				alert(this.props.loginError);
-			}
-		});
+		this.props
+			.onTryAuth(authData)
+			.then(() => {
+				this.setState({ loading: false });
+				this.props.navigation.navigate('Main');
+			})
+			.catch(() => {
+				this.setState({ loading: false });
+				if (this.props.loginError) {
+					alert(this.props.loginError);
+				}
+			});
 	};
 	registerNavigate = () => {
 		this.props.navigation.navigate('Register');
 	};
 	render() {
+		let buttonOrNot = (
+			<Button style={styles.button} mode="contained" onPress={this.submitLogin}>
+				تسجيل الدخول{' '}
+			</Button>
+		);
+		if (this.state.loading) {
+			buttonOrNot = <ActivityIndicator animating={true} color={Colors.primary} />;
+		}
 		return (
 			<View style={styles.container}>
 				<View style={styles.logoContainer}>
@@ -70,11 +88,7 @@ class LoginScreen extends Component {
 							onPress={() => console.log('Pressed')}
 						/>
 					</View>
-					<View style={styles.inputContainer}>
-						<Button style={styles.button} mode="contained" onPress={this.submitLogin}>
-							تسجيل الدخول
-						</Button>
-					</View>
+					<View style={styles.inputContainer}>{buttonOrNot}</View>
 					<View style={styles.forget}>
 						<Text>نسيت كلمة المرور ؟</Text>
 					</View>

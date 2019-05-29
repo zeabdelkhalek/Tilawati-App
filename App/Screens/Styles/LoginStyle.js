@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   input : {
     fontSize : 16 ,
-    backgroundColor : '#fff' ,
+    backgroundColor : 'transparent' ,
     textAlign : 'right' ,
     width : '85%' ,
     height : 45 ,
