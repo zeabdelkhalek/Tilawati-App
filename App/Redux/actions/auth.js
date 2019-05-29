@@ -51,7 +51,7 @@ export const tryRegister = (Data) => {
 export const authStoreToken = (token, refreshToken) => {
 	return (dispatch) => {
 		const now = new Date();
-		const expiryDate = now.getTime() + 3600 * 1000;
+		const expiryDate = now.getTime() + 7200 * 1000;
 		dispatch(authSetToken(token, expiryDate));
 		AsyncStorage.setItem('ap:auth:token', token);
 		AsyncStorage.setItem('ap:auth:expiryDate', expiryDate.toString());
