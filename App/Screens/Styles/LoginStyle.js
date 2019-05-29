@@ -53,6 +53,13 @@ const styles = StyleSheet.create({
     width : '85%' ,
     height : 45 ,
   },
+  smallInput : {
+    fontSize : 16 ,
+    backgroundColor : 'transparent' ,
+    textAlign : 'right' ,
+    width : '40%' ,
+    height : 45 ,
+  },
   errorMessage : {
     color : '#123456' ,
     fontSize : 50 
