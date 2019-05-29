@@ -34,6 +34,9 @@ class LoginScreen extends Component {
 				if (this.props.loginError) {
 					alert(this.props.loginError);
 				}
+				else {
+					alert('Authentification failed , please try again !')
+				}
 			});
 	};
 	registerNavigate = () => {

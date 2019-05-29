@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import Header from "../Components/Header";
 import Tilawa from '../Components/Tilawa' ; 
+
 class HomeScreen extends Component {
   
   constructor(props) {

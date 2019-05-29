@@ -5,7 +5,6 @@ import SearchScreen from './SearchScreen';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import IntroSliderScreen from './IntroSliderScreen';
-import MainScreen from './MainScreen';
 
 export {
 	HomeScreen,
@@ -15,5 +14,4 @@ export {
 	LoginScreen,
 	RegisterScreen,
 	IntroSliderScreen,
-	MainScreen
 };
