@@ -20,15 +20,7 @@ export default StyleSheet.create({
         color : '#fff' , 
         marginLeft : 8 ,
     },
-    playChip : {
-        backgroundColor: Colors.primary , 
-        color : '#fff' , 
-        marginLeft : 8 ,
-        width : '20%' , 
-        marginTop : 12 ,
-        marginBottom : 12 ,
-        alignSelf : 'flex-end'
-    },
+   
     headerContainer :{
         marginTop : 20 ,
         marginLeft : -20 ,
@@ -40,7 +32,7 @@ export default StyleSheet.create({
     statuContainer : {
         alignSelf: 'flex-end',
         marginTop : 20 ,
-        width : '90%' , 
+        width : '100%' , 
     },
     statuContainerText : {
         fontWeight : 'bold' , 

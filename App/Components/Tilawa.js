@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import styles from './Styles/TilawaStyle';
-import { Chip, Card, Divider , Button , Avatar, IconButton } from 'react-native-paper';
-
+import { Chip, Card, Divider, Button, Avatar, IconButton } from 'react-native-paper';
+import AudioPlayer from './AudioPlayer';
 class Tilawa extends Component {
 	constructor(props) {
 		super(props);
@@ -48,17 +48,7 @@ class Tilawa extends Component {
 						<Text style={styles.statuContainerText}>
 							تلاوة لمقطع يعجبني من سورة الأعراف، أنشر من فضلك لتعم الفائدة
 						</Text>
-						<Chip
-							theme={{
-								colors: {
-									text: '#fff'
-								}
-							}}
-							
-							style={styles.playChip}
-							 icon="play-arrow" >
-						شغل
-						</Chip>
+						<AudioPlayer />
 					</View>
 
 					<Divider style={styles.divider} />

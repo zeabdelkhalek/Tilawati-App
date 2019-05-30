@@ -3,6 +3,7 @@ package com.tilawati;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.zmxv.RNSound.RNSoundPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
       new MainReactPackage(),
+            new RNSoundPackage(),
             new AsyncStoragePackage(),
             new RNGestureHandlerPackage(),
       new SplashScreenReactPackage(),
