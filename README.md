@@ -9,7 +9,9 @@
 
 3 - Run `npm install` , all required components will be installed automatically
 
-4 - Run your project : use `react-native run-android` to run your project on Android.
+4 - Configure your Android SDK and Android Virtual Device 
+
+5 - Run the project : use `react-native run-android` to run your project on Android.
 <!-- 
 # Development guide 
 
@@ -67,15 +69,17 @@ App
 
 **Components ── Styles** : We separate component styles from component functionality. Use this folder to create and store style files that match the naming of your components. For example, a component `AlertMessage.js` would have a matching styles file called `AlertMessageStyles.js` .
 
-**Screens**
+**Screens** :
+Main applciations screens & Containers 
 
-**Images**
+**Images** :
 Static images used in your project are stored here.
 
-**Navigation**
+**Navigation** :
+App Navigation like TabsNavigation , Drawer , StackNavigation ....
 
-**Services**
+**Services** :
 API calls to external services.
 
-**Themes**
+**Themes** :
 A place to contain styles shared across your project (fonts, colors, etc.).
