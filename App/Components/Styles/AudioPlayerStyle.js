@@ -18,5 +18,6 @@ export default StyleSheet.create({
     },
     progressBar :{
         width : '60%' , 
-    },
+        paddingVertical: 20
+        },
 })
