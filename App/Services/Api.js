@@ -14,7 +14,16 @@ const api = apisauce.create({
 
 export const authUser = (email, password) => api.post('login', { email, password });
 
-export const addUser = (body) => api.post('register', { ...body });
+export const addUser = (body) =>
+	api.post(
+		'register',
+		{ ...body },
+		{
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		}
+	);
 
 export const getTilawasService = (token) =>
 	api.get('tilawas/index', null, {
@@ -23,7 +32,27 @@ export const getTilawasService = (token) =>
 		}
 	});
 
-export const addTilawa = (body) => api.post('tilawas/add', { ...body });
+export const searchTilawa = (token, body) =>
+	api.get(
+		'tilawas/search',
+		{ ...body },
+		{
+			headers: {
+				'Authorization ': `Bearer ${token}`
+			}
+		}
+	);
+
+export const addTilawa = (body, token) =>
+	api.post(
+		'tilawas/add',
+		{ ...body },
+		{
+			headers: {
+				'Authorization ': `Bearer ${token}`
+			}
+		}
+	);
 
 export const addComment = (id, body) => api.post(`tilawas/${id}/comments/add`, { ...body });
 
