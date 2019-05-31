@@ -4,7 +4,7 @@ import SplashScreen from 'react-native-splash-screen';
 import configureStore from '../Redux/configureStore';
 import styles from './Styles/NavigationStyles';
 import { Provider } from 'react-redux';
-import { LoginScreen, RegisterScreen, IntroSliderScreen } from '../Screens';
+import { LoginScreen, RegisterScreen, IntroSliderScreen , WaitScreen} from '../Screens';
 import BottomTabNavigator from "./BottomTabNavigator";
 import Header from '../Components/Header';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -16,6 +16,7 @@ const AppNavigator = createStackNavigator(
 		Intro: { screen: IntroSliderScreen },
 		Login: { screen: LoginScreen },
 		Register: { screen: RegisterScreen },
+		Wait: { screen: WaitScreen },
 		Main: {
 			screen: BottomTabNavigator , 
 			navigationOptions: {
@@ -26,7 +27,7 @@ const AppNavigator = createStackNavigator(
 	{
 		// Default config for all screens
 		headerMode: 'none',
-		initialRouteName: 'Intro'
+		initialRouteName: 'Wait'
 	}
 );
 

@@ -48,16 +48,6 @@ class Slider extends React.Component {
     super(props)
   }
 
-  componentWillMount() {
-    this.props.getToken()
-    .then((token) => {
-      this.props.navigation.navigate('Main')
-    }) 
-      .catch(() => {
-        console.warn('get token failled')
-      })
-         
-  }
   _renderItem = (item) => {
     return (
       <View style={[styles.slide , { backgroundColor : item.backgroundColor } ]}>
