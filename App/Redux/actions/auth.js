@@ -1,50 +1,50 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN, LOGIN_ERROR } from './actionTypes';
-import { authUser , addUser } from '../../Services/Api';
+import { authUser, addUser } from '../../Services/Api';
 
 export const tryAuth = (authData) => {
 	return (dispatch) => {
-    const promise = new Promise((resolve , reject) => {
-      authUser(authData.email, authData.password)
-			.catch(err => {
-			  reject() ; 
-			})
-			// .then(res => res.json())
-			.then((res) => {
-				if (!res.ok) {
-          dispatch(loginError(res.data[0]));
-          reject() ; 
-				} else {          
-					dispatch(authStoreToken(res.data.accessToken.token, res.data.accessToken.refreshToken));
-          resolve() ; 
-				}
-			});
-    }) 
-    return promise ; 
+		const promise = new Promise((resolve, reject) => {
+			authUser(authData.email, authData.password)
+				.catch((err) => {
+					reject();
+				})
+				// .then(res => res.json())
+				.then((res) => {
+					if (!res.ok) {
+						dispatch(loginError(res.data[0]));
+						reject();
+					} else {
+						dispatch(authStoreToken(res.data.accessToken.token, res.data.accessToken.refreshToken));
+						resolve();
+					}
+				});
+		});
+		return promise;
 	};
 };
 
 export const tryRegister = (Data) => {
 	return (dispatch) => {
-    const promise = new Promise((resolve , reject) => {
-      addUser(Data)
-			.catch(err => {
-			  reject() ; 
-			})
-			// .then(res => res.json())
-			.then((res) => {
-				if (!res.ok) {
-          dispatch(loginError(res.data[0].message));
-          reject() ; 
-				} else {
-					console.warn(res.data);
-					          
-					dispatch(authStoreToken(res.data.accessToken.token, res.data.accessToken.refreshToken));
-          resolve() ; 
-				}
-			});
-    }) 
-    return promise ; 
+		const promise = new Promise((resolve, reject) => {
+			addUser(Data)
+				.catch((err) => {
+					reject();
+				})
+				// .then(res => res.json())
+				.then((res) => {
+					if (!res.ok) {
+						dispatch(loginError(res.data[0].message));
+						reject();
+					} else {
+						console.warn(res.data);
+
+						dispatch(authStoreToken(res.data.accessToken.token, res.data.accessToken.refreshToken));
+						resolve();
+					}
+				});
+		});
+		return promise;
 	};
 };
 
@@ -76,9 +76,8 @@ export const authGetToken = () => {
 				let fetchedToken;
 				AsyncStorage.getItem('ap:auth:token')
 					.catch((err) => {
-						reject(err)
-					}
-					)
+						reject(err);
+					})
 					.then((tokenFromStorage) => {
 						fetchedToken = tokenFromStorage;
 						if (!tokenFromStorage) {
@@ -102,7 +101,7 @@ export const authGetToken = () => {
 				resolve(token);
 			}
 		});
-		return promise ; 
+		return promise;
 		// .catch(err => {
 		//   return AsyncStorage.getItem("ap:auth:refreshToken")
 		//     .then(refreshToken => {

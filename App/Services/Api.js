@@ -1,7 +1,6 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce';
 
-
 const api = apisauce.create({
 	// base URL is read from the "constructor"
 	baseURL: 'https://tilawati-api.herokuapp.com/api/',
@@ -20,11 +19,22 @@ export const addUser = (body) => api.post('register', { ...body });
 export const getTilawasService = (token) =>
 	api.get('tilawas/index', null, {
 		headers: {
-			'Authorization ': `Bearer ${token}` 
+			'Authorization ': `Bearer ${token}`
 		}
 	});
 
 export const addTilawa = (body) => api.post('tilawas/add', { ...body });
 
 export const addComment = (id, body) => api.post(`tilawas/${id}/comments/add`, { ...body });
+
+export const likeTilawa = (id, token) =>
+	api.post(
+		`tilawas/${id}/notes/add`,
+		{},
+		{
+			headers: {
+				'Authorization ': `Bearer ${token}`
+			}
+		}
+	);
 // let's return back our create method as the default.

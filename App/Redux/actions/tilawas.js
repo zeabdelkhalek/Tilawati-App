@@ -1,12 +1,12 @@
 import { SET_TILAWAS } from './actionTypes';
-import { getTilawasService } from '../../Services/Api';
+import { getTilawasService, likeTilawa } from '../../Services/Api';
 
 export const getTilawas = () => {
-	return (dispatch , getState ) => {
+	return (dispatch, getState) => {
 		const promise = new Promise((resolve, reject) => {
-			const token = getState().auth.token; 
-			if(!token) {
-				reject() ;
+			const token = getState().auth.token;
+			if (!token) {
+				reject();
 			}
 			getTilawasService(token)
 				.catch((err) => {
@@ -17,8 +17,8 @@ export const getTilawas = () => {
 				.then((res) => {
 					if (!res.ok) {
 						reject();
-					} else {						
-						dispatch(setTilawas(res.data.data));						
+					} else {
+						dispatch(setTilawas(res.data.data));
 						resolve();
 					}
 				});
@@ -27,9 +27,27 @@ export const getTilawas = () => {
 	};
 };
 
-export const setTilawas = (data) => {
-    return {
-		type : SET_TILAWAS ,
-		tilawas : data
+export const tryLike = (id) => {
+	return (dispatch, getState) => {
+		const promise = new Promise((resolve, reject) => {
+			const token = getState().auth.token;
+			likeTilawa(id, token).then((res) => {
+				console.warn(res);
+
+				if (!res.ok) {
+					reject(res.problem);
+				} else {
+					resolve();
+				}
+			});
+		});
+		return promise;
 	};
-}
+};
+
+export const setTilawas = (data) => {
+	return {
+		type: SET_TILAWAS,
+		tilawas: data
+	};
+};

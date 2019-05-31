@@ -1,19 +1,40 @@
 import React, { Component } from 'react';
 import { View, Text, Modal, TouchableHighlight } from 'react-native';
 import styles from './Styles/TilawaStyle';
-import { Chip, Card, Divider, Button, Avatar, IconButton } from 'react-native-paper';
+import { Chip, Card, Divider, Button, Avatar, IconButton, Colors } from 'react-native-paper';
 import AudioPlayer from './AudioPlayer';
+import { connect } from 'react-redux';
+import { tryLike } from '../Redux/actions/tilawas';
 class Tilawa extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			visible: false
+			visible: false,
+			like: false
 		};
 	}
 	_showModal = () => this.setState({ visible: true });
 	_hideModal = () => this.setState({ visible: false });
-
-	showCommentsModel = () => {};
+	likeTilawaHandler = () => {
+		this.setState({
+			like: true
+		});
+		this.props
+			.onTryLike(this.props.id)
+			.catch((err) => {
+				this.setState({
+					like: false
+				});
+			})
+			.then(() => {
+				console.warn('sucess');
+			});
+	};
+	unLikeTilawaHandler = () => {
+		this.setState({
+			like: false
+		});
+	};
 	render() {
 		let tags = this.props.tags.map((tag) => {
 			return (
@@ -31,14 +52,21 @@ class Tilawa extends Component {
 			);
 		});
 		const { visible } = this.state;
+		let comments = this.props.comments.map((comment) => {
+			return <Text key={comment.id}> {comment.statement} </Text>;
+		});
+		let LikeButton = <IconButton color={Colors.accent} onPress={this.likeTilawaHandler} icon="favorite" />;
+		if (this.state.like) {
+			LikeButton = <IconButton color={Colors.red500} onPress={this.unLikeTilawaHandler} icon="favorite" />;
+		}
 
 		return (
 			<Card style={styles.container}>
 				<Card.Content>
-					<Modal visible={visible} animationType="slide">
+					<Modal visible={visible} onRequestClose={this._hideModal} animationType="slide">
 						<View style={{ marginTop: 22 }}>
 							<View>
-								<Text>Hello World!</Text>
+								{comments}
 								<TouchableHighlight onPress={this._hideModal}>
 									<Text>Hide Modal</Text>
 								</TouchableHighlight>
@@ -75,7 +103,7 @@ class Tilawa extends Component {
 					<Divider style={styles.divider} />
 					<View style={styles.actionContainer}>
 						<View style={styles.oneAction}>
-							<IconButton icon="favorite" />
+							{LikeButton}
 							<Text>أعجبني</Text>
 						</View>
 						<View style={styles.oneAction}>
@@ -93,4 +121,9 @@ class Tilawa extends Component {
 	}
 }
 
-export default Tilawa;
+mapDispatchToProps = (dispatch) => {
+	return {
+		onTryLike: (id) => dispatch(tryLike(id))
+	};
+};
+export default connect(null, mapDispatchToProps)(Tilawa);

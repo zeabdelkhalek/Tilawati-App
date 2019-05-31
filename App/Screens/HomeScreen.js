@@ -36,9 +36,11 @@ class HomeScreen extends Component {
 	_renderItem = ({ item }) => (
 		<Tilawa
 			key={item.id}
+			id={item.id}
 			tags={item.tags}
 			user={item.user.first_name}
 			title={item.title}
+			comments={item.comments}
 			record={item.record}
 			description={item.description}
 		/>
