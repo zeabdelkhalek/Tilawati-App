@@ -10,7 +10,8 @@ class AudioPlayer extends Component {
 		this.state = {
 			progress: 0,
 			currentTime: 0,
-			duration: 0
+			duration: 0,
+			disabled: false
 		};
 	}
 	componentWillMount() {
@@ -18,6 +19,9 @@ class AudioPlayer extends Component {
 	}
 
 	playTrack = () => {
+		this.setState({
+			disabled: true
+		});
 		tick = () => {
 			this.track.getCurrentTime((seconds) => {
 				if (this.tickInterval) {
@@ -44,6 +48,9 @@ class AudioPlayer extends Component {
 							this.tickInterval = null;
 						}
 						console.warn('successfully finished playing');
+						this.setState({
+							disabled: false
+						});
 					} else {
 						if (this.tickInterval) {
 							clearInterval(this.tickInterval);
@@ -71,6 +78,7 @@ class AudioPlayer extends Component {
 					color={Colors.primary}
 				/>
 				<Chip
+					disabled={this.state.disabled}
 					onPress={this.playTrack}
 					theme={{
 						colors: {

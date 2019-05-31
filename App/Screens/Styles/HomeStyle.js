@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
       },
       loading : {
         position : 'absolute' , 
-        left : '50%' , 
+        left : '47%' , 
         top : '50%'
       }
 })
