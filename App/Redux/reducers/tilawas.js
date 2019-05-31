@@ -1,7 +1,8 @@
-import { SET_TILAWAS } from "../actions/actionTypes";
+import { SET_TILAWAS , SET_TILAWAS_SEARCH} from "../actions/actionTypes";
 
 const initialState = {
-    data : [] 
+    data : [] ,
+    seach :  []
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         data: action.tilawas,
+      };
+    case SET_TILAWAS_SEARCH :
+      return {
+        ...state,
+        search: action.tilawas,
       };
     default:
       return state;

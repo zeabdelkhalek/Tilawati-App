@@ -82,12 +82,12 @@ class Tilawa extends Component {
 							}}
 						>
 							<Text style={styles.text}>
-								{this.props.user} قام بنشر تلاوة جديدة من سورة {this.props.title}
+								{this.props.user.first_name} قام بنشر تلاوة جديدة من سورة {this.props.title}
 							</Text>
 						</View>
-						<Avatar.Icon
+						<Avatar.Image
 							size={60}
-							icon="mic"
+							source={{uri : this.props.user.photo}}
 							theme={{
 								colors: {
 									primary: '#BDBDBD'
