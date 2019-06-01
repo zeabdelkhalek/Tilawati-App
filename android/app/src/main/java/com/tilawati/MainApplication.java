@@ -3,6 +3,7 @@ package com.tilawati;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+// import ui.fileselector.RNFileSelectorPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
       new MainReactPackage(),
+            // new RNFileSelectorPackage(),
             new ImagePickerPackage(),
             new RNSoundPackage(),
             new AsyncStoragePackage(),

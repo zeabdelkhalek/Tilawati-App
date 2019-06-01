@@ -6,6 +6,9 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
+  "rnpm": {
+    "assets": ["./fonts"]
+ } ,
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.0",
     "apisauce": "^1.0.2",
@@ -15,6 +18,7 @@
     "react-native-app-intro-slider": "^2.0.1",
     "react-native-elements": "^1.1.0",
     "react-native-gesture-handler": "^1.2.1",
+    "react-native-global-props": "^1.1.5",
     "react-native-image-picker": "^0.28.1",
     "react-native-paper": "^2.15.2",
     "react-native-sound": "^0.10.12",
