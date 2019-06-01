@@ -8,7 +8,17 @@ import { LoginScreen, RegisterScreen, IntroSliderScreen , WaitScreen} from '../S
 import DrawerNavigation from "./DrawerNavigation";
 import Header from '../Components/Header';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import {
+	setCustomText,
+  } from 'react-native-global-props';
+  
 const store = configureStore();
+const customTextProps  = {
+	style: {
+	  fontFamily: 'JannaLT-Regular',
+	}
+  };
+  setCustomText(customTextProps);
 
 // Manifest of possible screens
 const AppNavigator = createStackNavigator(
