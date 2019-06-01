@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN, LOGIN_ERROR } from './actionTypes';
+import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN, LOGIN_ERROR , AUTH_SET_USER} from './actionTypes';
 import { authUser, addUser, getCurrentUser } from '../../Services/Api';
 
 export const tryAuth = (authData) => {
@@ -72,6 +72,14 @@ export const authSetToken = (token, expiryDate) => {
 	};
 };
 
+export const authSetUser = (name, photo) => {
+	return {
+		type: AUTH_SET_USER,
+		name: name,
+		photo: photo
+	};
+};
+
 export const authGetToken = () => {
 	return (dispatch, getState) => {
 		const promise = new Promise((resolve, reject) => {
@@ -124,7 +132,8 @@ export const authGetUser = () => {
 							reject();
 						} else {
 							console.warn(res.data);
-							resolve(res.data.data);
+							dispatch(authSetUser(res.data.data.name , res.data.data.photo))
+							resolve();
 						}
 					})
 					.catch((err) => {

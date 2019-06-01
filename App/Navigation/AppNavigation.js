@@ -5,7 +5,7 @@ import configureStore from '../Redux/configureStore';
 import styles from './Styles/NavigationStyles';
 import { Provider } from 'react-redux';
 import { LoginScreen, RegisterScreen, IntroSliderScreen , WaitScreen} from '../Screens';
-import BottomTabNavigator from "./BottomTabNavigator";
+import DrawerNavigation from "./DrawerNavigation";
 import Header from '../Components/Header';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 const store = configureStore();
@@ -18,7 +18,7 @@ const AppNavigator = createStackNavigator(
 		Register: { screen: RegisterScreen },
 		Wait: { screen: WaitScreen },
 		Main: {
-			screen: BottomTabNavigator , 
+			screen: DrawerNavigation , 
 			navigationOptions: {
 				header: Header
 			}
