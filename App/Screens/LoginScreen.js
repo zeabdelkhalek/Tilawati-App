@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity , Image } from 'react-native';
 import styles from './Styles/LoginStyle';
 import { connect } from 'react-redux';
 import { tryAuth } from '../Redux/actions/auth';
 
 import { Avatar, Button, TextInput, IconButton, ActivityIndicator } from 'react-native-paper';
-import { Colors } from '../Themes';
+import { Colors , Images} from '../Themes';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 class LoginScreen extends Component {
 	constructor(props) {
@@ -54,7 +55,11 @@ class LoginScreen extends Component {
 		return (
 			<View style={styles.container}>
 				<View style={styles.logoContainer}>
-					<Avatar.Text size={136} label="XD" />
+					{/* <Avatar.Text size={136} label="XD" /> */}
+					<Image style={{
+						width : 150 , 
+						height : 150
+					}} source={Images.logoGreen} />
 				</View>
 				<View style={styles.loginContainer}>
 					<View style={styles.inputContainer}>
@@ -65,12 +70,11 @@ class LoginScreen extends Component {
 							onChangeText={(text) => this.setState({ email: text })}
 							placeholder="البريد الالكتروني "
 						/>
-						<IconButton
+						<Icon
 							style={styles.icon}
-							icon="mail"
+							name="mail"
 							color="#009688"
 							size={30}
-							onPress={() => console.log('Pressed')}
 						/>
 					</View>
 					<View style={styles.inputContainer}>
@@ -83,12 +87,11 @@ class LoginScreen extends Component {
 							secureTextEntry={true}
 							placeholder="كلمة المرور "
 						/>
-						<IconButton
+						<Icon
 							style={styles.icon}
-							icon="lock"
+							name="lock"
 							color="#009688"
 							size={30}
-							onPress={() => console.log('Pressed')}
 						/>
 					</View>
 					<View style={styles.inputContainer}>{buttonOrNot}</View>
