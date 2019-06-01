@@ -4,6 +4,7 @@ const images = {
   logoGreen: require('../Images/LOGO_GREEN.png'),
   slideOne : require('../Images/Slide1.png'), 
   slideTwo : require('../Images/Slide2.png'), 
+  slideThree : require('../Images/Slide3.png'), 
 }
 
 export default images

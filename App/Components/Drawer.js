@@ -7,17 +7,13 @@ import { authwarnout, authGetUser } from '../Redux/actions/auth';
 
 class DrawerContainer extends React.Component {
 	state = {
-		name: null,
-		photo: null
+		
 	};
 	componentWillMount() {
 		this.props
 			.onTryGetUser()
-			.then((data) => {
-				this.setState({
-					name: data.name,
-					photo: data.photo
-				});
+			.then(() => {
+				alert('sucess')
 			})
 			.catch(() => {
 			});
@@ -27,7 +23,8 @@ class DrawerContainer extends React.Component {
 		this.props.navigation.navigate('Login');
 	};
 	render() {
-		const { active, name, photo } = this.state;
+		const { name, photo } = this.props;
+		const { active } = this.state;
 
 		return (
 			<View>
@@ -46,7 +43,7 @@ class DrawerContainer extends React.Component {
 				</View>
 				<Drawer.Section >
 					<Drawer.Item active={true} icon="person" label={name} />
-					<Drawer.Item onPress={this.logoutHandler} icon="arrow-back" label="Logout" />
+					<Drawer.Item onPress={this.logoutHandler} icon="arrow-back" label="تسجيل الخروج" />
 
 					{/* <Drawer.Item label="Second Item" active={active === 'second'} /> */}
 				</Drawer.Section>
@@ -63,7 +60,10 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => {
-	return {};
+	return {
+		name : state.auth.name ,
+		photo : state.auth.photo
+	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerContainer);

@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
 		marginTop: 19
 	},
 	input: {
+		fontFamily : 'Janna LT-Regular',
 		fontSize: 16,
 		backgroundColor: 'transparent',
 		textAlign: 'right',

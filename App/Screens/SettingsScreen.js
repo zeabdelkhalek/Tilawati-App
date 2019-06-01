@@ -12,7 +12,7 @@ class SettingsScreen extends Component {
 	render() {
 		return (
 			<View>
-				<Header />
+				<Header openDrawer={this.props.navigation.openDrawer} />
 				<View style={{
 					justifyContent : 'center' ,
 					flexDirection: 'column',

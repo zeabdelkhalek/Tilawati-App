@@ -105,7 +105,7 @@ class LoginScreen extends Component {
 						<TouchableOpacity onPress={this.registerNavigate}>
 							<Text
 								style={{
-									fontWeight: 'bold'
+									fontFamily : 'Janna LT Bold',
 								}}
 							>
 								{' '}

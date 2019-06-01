@@ -60,12 +60,13 @@ class RegisterScreen extends Component {
 	};
 	createFormData = (photo, body) => {
 		const data = new FormData();
-
-		data.append('photo', {
-			name: photo.fileName,
-			type: photo.type,
-			uri: photo.uri
-		});
+		if (photo != null) {
+			data.append('photo', {
+				name: photo.fileName,
+				type: photo.type,
+				uri: photo.uri
+			});
+		}
 
 		Object.keys(body).forEach((key) => {
 			data.append(key, body[key]);
@@ -74,61 +75,68 @@ class RegisterScreen extends Component {
 		return data;
 	};
 	submitRegister = () => {
-		if (!this.state.photo) {
-			alert('pick a profile picture !');
-		} else {
-			this.setState({ loading: true });
+		// if (!this.state.photo) {
+		// 	alert('pick a profile picture !');
+		// }
+		// else {
+		this.setState({ loading: true });
 
-			const authData = {
-				first_name: this.state.first_name,
-				last_name: this.state.last_name,
-				email: this.state.email,
-				password: this.state.password,
-				password_confirmation: this.state.password_confirmation
-			};
-			const data = this.createFormData(this.state.photo, authData);
-			console.warn(data);
+		const authData = {
+			first_name: this.state.first_name,
+			last_name: this.state.last_name,
+			email: this.state.email,
+			password: this.state.password,
+			password_confirmation: this.state.password_confirmation
+		};
+		const data = this.createFormData(this.state.photo, authData);
+		console.warn(data);
 
-			// this.props
-			// 	.onTryRegister(data)
-			// 	.then(() => {
-			// 		this.setState({ loading: false });
-			// 		this.props.navigation.navigate('Main');
-			// 	})
-			// 	.catch(() => {
-			// 		this.setState({ loading: false });
-			// 		if (this.props.registerError) {
-			// 			alert(this.props.registerError);
-			// 		}
-			// 	});
-			fetch('https://tilawati-api.herokuapp.com/api/register', {
-				method: 'post',
-				body: data
+		// this.props
+		// 	.onTryRegister(data)
+		// 	.then(() => {
+		// 		this.setState({ loading: false });
+		// 		this.props.navigation.navigate('Main');
+		// 	})
+		// 	.catch(() => {
+		// 		this.setState({ loading: false });
+		// 		if (this.props.registerError) {
+		// 			alert(this.props.registerError);
+		// 		}
+		// 	});
+		fetch('https://tilawati-api.herokuapp.com/api/register', {
+			method: 'post',
+			body: data
+		})
+			.then(res => {
+				console.warn(res)
+				return res.json();
 			})
-				.then((res) => res.json())
-				.then((prasedRes) => {
-					console.warn(parsedRes);
-					
-					if (!prasedRes.ok) {
-						this.props.onLoginError(prasedRes.data[0].message);
-						this.setState({ loading: false });
-					} else {
-						console.warn(prasedRes.data);
+			// .then(res2 => {
+			// 	console.warn(res2);
+				
+			// 	return JSON.stringify(response)
+			// })
+			.then((parsedRes) => {
+				console.warn(parsedRes);
 
-						this.props.onStoreToken(
-							prasedRes.data.accessToken.token,
-							prasedRes.data.accessToken.refreshToken
-						);
-						this.setState({ loading: false });
-						this.props.navigation.navigate('Main');
-					}
-				})
-				.catch((err) => {
-					console.warn(err);
-					
+				// if (!parsedRes.ok) {
+					// this.props.onLoginError(parsedRes.data[0].message);
+					// this.setState({ loading: false });
+				// } else {
+					console.warn(parsedRes.data);
+
+					this.props.onStoreToken(parsedRes.accessToken.token, parsedRes.accessToken.refreshToken);
 					this.setState({ loading: false });
-				});
-		}
+					this.props.navigation.navigate('Main');
+				// }
+			})
+			.catch((err) => {
+				console.warn(err);
+
+				this.setState({ loading: false });
+			});
+
+		// }
 	};
 	render() {
 		let buttonOrNot = (
@@ -251,7 +259,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onTryRegister: (authData) => dispatch(tryRegister(authData)),
 		onLoginError: (error) => dispatch(loginError(error)),
-		onStoreToken: (token, refresh) => dispatch(authStoreToken(token , refresh))
+		onStoreToken: (token, refresh) => dispatch(authStoreToken(token, refresh))
 	};
 };
 
