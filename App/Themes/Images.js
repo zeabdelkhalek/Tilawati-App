@@ -1,6 +1,9 @@
 // leave off @2x/@3x
 const images = {
-  logo: require('../Images/ExampleLogo.png'),
+  logoWhite: require('../Images/LOGO_WHITE.png'),
+  logoGreen: require('../Images/LOGO_GREEN.png'),
+  slideOne : require('../Images/Slide1.png'), 
+  slideTwo : require('../Images/Slide2.png'), 
 }
 
 export default images

@@ -1,80 +1,118 @@
 import React from 'react';
-import { Text , Image ,  View , StyleSheet } from 'react-native';
+import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import { authGetToken } from '../Redux/actions/auth';
-
+import { Colors, Images } from '../Themes';
 const styles = StyleSheet.create({
-    slide : {
-      flex : 1 , 
-      justifyContent: 'center',
-      alignItems: 'center',
-    }, 
-    title : { 
-      fontSize : 40 , 
-    } , 
-    text : {
-      fontSize : 20 
-    }
-})
-
+	slide: {
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		height : '100%' , 
+	},
+	title: {
+		flex : 1 ,
+		fontSize: 30,
+		fontWeight: 'bold',
+		color: Colors.primary,
+	},
+	text: {
+		flex : 2,
+		fontSize: 15,
+		textAlign: 'center',
+		color: Colors.primary,
+		width: '80%'
+	},
+	image: {
+		flex : 2 ,
+		height: 150,
+	},
+	activeDots: {
+		backgroundColor: Colors.primary
+	},
+	inactiveDots: {
+		backgroundColor: Colors.white,
+		borderColor: Colors.primary,
+		borderWidth: 1
+	},
+	skip : {
+		flex : 1 ,
+			alignSelf: 'flex-end' , 
+			marginRight: 20,
+	}
+});
 
 const slides = [
-  {
-    key: 'somethun',
-    title: 'Title 1',
-    text: 'Description.\nSay something cool',
-    // image: require('./assets/1.jpg'),
-    backgroundColor: '#59b2ab',
-  },
-  {
-    key: 'somethun-dos',
-    title: 'Title 2',
-    text: 'Other cool stuff',
-    // image: require('./assets/2.jpg'),
-    backgroundColor: '#febe29',
-  },
-  {
-    key: 'somethun1',
-    title: 'Rocket guy',
-    text: 'I\'m already out of descriptions\n\nLorem ipsum bla bla bla',
-    // image: require('./assets/3.jpg'),
-    backgroundColor: '#22bcb5',
-  }
+	{
+		key: 'somethun',
+		title: ' تطبيق تلاوتي ',
+		text:
+			'تطبيق صنع من طرف حفاظ كتاب الله تعالى ، من أجل المساهمة في تنمية ثقافة التجويد في العالم الإسلامي عبر نشر التلاوات ',
+		image: Images.slideOne,
+		// image : require('../Images/Slide1.png') ,
+		backgroundColor: Colors.white
+	},
+	{
+		key: 'somethun-dos',
+		title: 'أنشر تلاوتك و نل ثوابها ',
+		text: 'يمكن نشر تلاوتك مع متابعيك و أصدقائك ، نل ثواب كل حرف يستنصت و كل قلب يلين لعذوبة صوتك ',
+		image: Images.slideTwo,
+		backgroundColor: Colors.white
+	}
+	// {
+	// 	key: 'somethun1',
+	// 	title: 'Rocket guy',
+	// 	text: "I'm already out of descriptions\n\nLorem ipsum bla bla bla",
+	// 	// image: require('./assets/3.jpg'),
+	// 	backgroundColor: Colors.white
+	// }
 ];
 
 class Slider extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+	constructor(props) {
+		super(props);
+	}
 
-  _renderItem = (item) => {
-    return (
-      <View style={[styles.slide , { backgroundColor : item.backgroundColor } ]}>
-        <Text style={styles.title}>{item.title}</Text>
-        {/* <Image source={item.image} /> */}
-        <Text style={styles.text}>{item.text}</Text>
-      </View>
-    );
-  }
-  _onDone = () => {
-    this.props.navigation.navigate('Login')
-  }
-  render() {
-      return <AppIntroSlider renderItem={this._renderItem} slides={slides} onDone={this._onDone}/>;
-  }
-
-  
+	_renderItem = (item) => {
+		return (
+			<View style={[ styles.slide, { backgroundColor: item.backgroundColor } ]}>
+				<TouchableOpacity
+					style={styles.skip}
+					onPress={this._onDone}
+				>
+					<Text style={[ styles.title , {fontSize : 20 }] }>تخطي</Text>
+				</TouchableOpacity>
+				<Image resizeMode={'contain'}   style={styles.image} source={item.image} />
+				<Text style={styles.title}>{item.title}</Text>
+				<Text style={styles.text}>{item.text}</Text>
+			</View>
+		);
+	};
+	_onDone = () => {
+		this.props.navigation.navigate('Login');
+	};
+	render() {
+		return (
+			<AppIntroSlider
+				activeDotStyle={styles.activeDots}
+				dotStyle={styles.inactiveDots}
+				renderItem={this._renderItem}
+				showNextButton={false}
+				slides={slides}
+				onDone={this._onDone}
+			/>
+		);
+	}
 }
 const mapDispatchToProps = (dispatch) => {
-  return {
-    getToken : () => dispatch(authGetToken())
-  }
-}
+	return {
+		getToken: () => dispatch(authGetToken())
+	};
+};
 const mapStateToProps = (state) => {
-  const authState = state.auth.token ? true : false 
-  return {
-    auth : authState 
-  }
-}
-export default connect(null , mapDispatchToProps)(Slider)
+	const authState = state.auth.token ? true : false;
+	return {
+		auth: authState
+	};
+};
+export default connect(null, mapDispatchToProps)(Slider);
