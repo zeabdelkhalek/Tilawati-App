@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text, Modal, TouchableHighlight } from 'react-native';
+import { View, Text, Modal, TouchableHighlight, FlatList } from 'react-native';
 import styles from './Styles/TilawaStyle';
-import { Chip, Card, Divider, Button, Avatar, IconButton, Colors } from 'react-native-paper';
+import { Chip, Card, Divider, Button, Avatar, IconButton, Colors as MaterialColors, Appbar } from 'react-native-paper';
 import AudioPlayer from './AudioPlayer';
 import { connect } from 'react-redux';
 import { tryLike } from '../Redux/actions/tilawas';
+import Comment from './Comment';
+import { TextInput } from 'react-native-gesture-handler';
+import { Colors } from "../Themes";
 class Tilawa extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			visible: false,
-			like: false
+			like: false,
+			comment: '',
+			// comments : this.props.comments
 		};
 	}
 	_showModal = () => this.setState({ visible: true });
@@ -35,6 +40,12 @@ class Tilawa extends Component {
 			like: false
 		});
 	};
+	_keyExtractor = (item, index) => item.id;
+
+	_renderItem = ({ item }) => (
+		<Comment key={item.id} photo={item.user.photo} statement={item.statement} author={item.author} />
+	);
+	addCommentHandler = () => {};
 	render() {
 		let tags = this.props.tags.map((tag) => {
 			return (
@@ -52,25 +63,56 @@ class Tilawa extends Component {
 			);
 		});
 		const { visible } = this.state;
-		let comments = this.props.comments.map((comment) => {
-			return <Text key={comment.id}> {comment.statement} </Text>;
-		});
-		let LikeButton = <IconButton color={Colors.accent} onPress={this.likeTilawaHandler} icon="favorite" />;
+		let comments = (
+			<FlatList keyExtractor={this._keyExtractor} data={this.props.comments} renderItem={this._renderItem} />
+		);
+
+		let LikeButton = (
+			<IconButton color={MaterialColors.accent} onPress={this.likeTilawaHandler} icon="favorite-border" />
+		);
+
 		if (this.state.like) {
-			LikeButton = <IconButton color={Colors.red500} onPress={this.unLikeTilawaHandler} icon="favorite" />;
+			LikeButton = (
+				<IconButton color={MaterialColors.red500} onPress={this.unLikeTilawaHandler} icon="favorite" />
+			);
 		}
 
 		return (
 			<Card style={styles.container}>
 				<Card.Content>
-					<Modal visible={visible} onRequestClose={this._hideModal} animationType="slide">
-						<View style={{ marginTop: 22 }}>
-							<View>
-								{comments}
-								<TouchableHighlight onPress={this._hideModal}>
-									<Text>Hide Modal</Text>
-								</TouchableHighlight>
-							</View>
+					<Modal style={{
+						height : "100%"
+					}} visible={visible} onRequestClose={this._hideModal} animationType="slide">
+						<View>
+							<Appbar style={styles.header}>
+								<Appbar.Action icon="close" onPress={this._hideModal} />
+								<Appbar.Content title="اضافة تعليق جديد" />
+							</Appbar>
+
+							{comments}
+							{/* <View style={styles.postComment}>
+								<Card>
+									<Card.Content>
+										<View style={styles.commentContainer}>
+											 <Avatar.Image source={{ uri: photo }} /> 
+											<View style={styles.textContainer}>
+												<TextInput
+													style={styles.input}
+													value={this.state.comment}
+													onChangeText={(text) => this.setState({ comment: text })}
+													placeholder="أكتب تعليقك"
+												/>{' '}
+											</View>
+											<IconButton
+												onPress={this.addCommentHandler}
+												icon="arrow"
+												color={Colors.primary}
+												size={20}
+											/>
+										</View>
+									</Card.Content>
+								</Card>
+							</View> */}
 						</View>
 					</Modal>
 					<View style={styles.tagContainer}>{tags}</View>
@@ -87,7 +129,7 @@ class Tilawa extends Component {
 						</View>
 						<Avatar.Image
 							size={60}
-							source={{uri : this.props.user.photo}}
+							source={{ uri: this.props.user.photo }}
 							theme={{
 								colors: {
 									primary: '#BDBDBD'

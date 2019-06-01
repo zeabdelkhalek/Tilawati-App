@@ -12,6 +12,17 @@ export default StyleSheet.create({
 		justifyContent: 'flex-start'
 		// alignItems : 'flex-end'
 	},
+	commentContainer: {
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		paddingHorizontal: 10,
+		paddingVertical: 10,
+		backgroundColor: Colors.white,
+		flexDirection: 'row-reverse'
+	},
+	textContainer: {
+		width: '60%'
+	},
 	tagContainer: {
 		flexDirection: 'row-reverse'
 	},
@@ -35,7 +46,7 @@ export default StyleSheet.create({
 		width: '100%'
 	},
 	statuContainerText: {
-		fontWeight: 'bold',
+		fontFamily : 'Janna LT Bold',
 		fontSize: 20
 	},
 	text: {
@@ -54,5 +65,20 @@ export default StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	header: {
+		padding: 30
+	},
+	postComment: {
+		position: 'absolute',
+		bottom: 0,
+		width: '100%'
+	},
+	input: {
+		fontSize: 13,
+		backgroundColor: 'transparent',
+		textAlign: 'right',
+		width: '85%',
+		height: 45
 	}
 });

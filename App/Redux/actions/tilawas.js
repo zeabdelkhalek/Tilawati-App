@@ -44,7 +44,7 @@ export const tryLike = (id) => {
 		return promise;
 	};
 };
-export const tryAddTilawa = (id) => {
+export const tryAddTilawa = (body) => {
 	return (dispatch, getState) => {
 		const promise = new Promise((resolve, reject) => {
 			const token = getState().auth.token;

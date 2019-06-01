@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Modal } from 'react-native';
 import Header from '../Components/Header';
 import Tilawa from '../Components/Tilawa';
+import AddTilawaModal from '../Components/AddTilawaModal';
 import { FAB, ActivityIndicator } from 'react-native-paper';
 import { connect } from 'react-redux';
 import styles from './Styles/HomeStyle';
@@ -12,7 +13,8 @@ class HomeScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loading: true
+			loading: true,
+			visible: false
 		};
 	}
 	componentWillMount() {
@@ -25,12 +27,17 @@ class HomeScreen extends Component {
 			})
 			.catch(() => {
 				this.setState({
-					loading: true
+					loading: false
 				});
 				alert('failed');
 			});
 	}
-
+	addTilawaHandler = () => {
+		console.warn('clieck');
+		this.setState({
+			visible: true
+		});
+	};
 	_keyExtractor = (item, index) => item.id;
 
 	_renderItem = ({ item }) => (
@@ -38,13 +45,14 @@ class HomeScreen extends Component {
 			key={item.id}
 			id={item.id}
 			tags={item.tags}
-			user={item.user.first_name}
+			user={item.user}
 			title={item.title}
 			comments={item.comments}
 			record={item.record}
 			description={item.description}
 		/>
 	);
+
 	render() {
 		let element = (
 			<FlatList keyExtractor={this._keyExtractor} data={this.props.tilawas} renderItem={this._renderItem} />
@@ -54,9 +62,25 @@ class HomeScreen extends Component {
 		}
 		return (
 			<View style={styles.container}>
-				<FAB medium style={styles.fab} icon="add" onPress={() => console.warn('Pressed')} />
-				<Header />
+				
+				<Header openDrawer={this.props.navigation.openDrawer} />
+				
+				<Modal onRequestClose={() => this.setState({visible : false })} animationType="slide" visible={this.state.visible}>
+					<AddTilawaModal onPress={() => this.setState({visible : false })} />
+				</Modal>
+
 				{element}
+				<FAB
+					disabled={false}
+					theme={{
+						primary: Colors.primary,
+						text: Colors.white
+					}}
+					medium
+					style={styles.fab}
+					icon="add"
+					onPress={this.addTilawaHandler}
+				/>
 			</View>
 		);
 	}
