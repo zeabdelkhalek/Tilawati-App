@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './Styles/LoginStyle';
 import { connect } from 'react-redux';
-import { tryRegister } from '../Redux/actions/auth';
+import { tryRegister, loginError, authStoreToken } from '../Redux/actions/auth';
 import { Avatar, Button, TextInput, IconButton, ActivityIndicator } from 'react-native-paper';
 import { Colors } from '../Themes';
 import ImagePicker from 'react-native-image-picker';
@@ -44,7 +44,7 @@ class RegisterScreen extends Component {
 			} else if (response.customButton) {
 				console.log('User tapped custom button: ', response.customButton);
 			} else {
-				const source = response ;
+				const source = response;
 
 				// You can also display the image using data:
 				// const source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -74,30 +74,61 @@ class RegisterScreen extends Component {
 		return data;
 	};
 	submitRegister = () => {
-		this.setState({ loading: true });
+		if (!this.state.photo) {
+			alert('pick a profile picture !');
+		} else {
+			this.setState({ loading: true });
 
-		const authData = {
-			first_name: this.state.first_name,
-			last_name: this.state.last_name,
-			email: this.state.email,
-			password: this.state.password,
-			password_confirmation: this.state.password_confirmation
-		};
-		const data = this.createFormData(this.state.photo, authData);
-		console.warn(data);
-		
-		this.props
-			.onTryRegister(data)
-			.then(() => {
-				this.setState({ loading: false });
-				this.props.navigation.navigate('Main');
+			const authData = {
+				first_name: this.state.first_name,
+				last_name: this.state.last_name,
+				email: this.state.email,
+				password: this.state.password,
+				password_confirmation: this.state.password_confirmation
+			};
+			const data = this.createFormData(this.state.photo, authData);
+			console.warn(data);
+
+			// this.props
+			// 	.onTryRegister(data)
+			// 	.then(() => {
+			// 		this.setState({ loading: false });
+			// 		this.props.navigation.navigate('Main');
+			// 	})
+			// 	.catch(() => {
+			// 		this.setState({ loading: false });
+			// 		if (this.props.registerError) {
+			// 			alert(this.props.registerError);
+			// 		}
+			// 	});
+			fetch('https://tilawati-api.herokuapp.com/api/register', {
+				method: 'post',
+				body: data
 			})
-			.catch(() => {
-				this.setState({ loading: false });
-				if (this.props.registerError) {
-					alert(this.props.registerError);
-				}
-			});
+				.then((res) => res.json())
+				.then((prasedRes) => {
+					console.warn(parsedRes);
+					
+					if (!prasedRes.ok) {
+						this.props.onLoginError(prasedRes.data[0].message);
+						this.setState({ loading: false });
+					} else {
+						console.warn(prasedRes.data);
+
+						this.props.onStoreToken(
+							prasedRes.data.accessToken.token,
+							prasedRes.data.accessToken.refreshToken
+						);
+						this.setState({ loading: false });
+						this.props.navigation.navigate('Main');
+					}
+				})
+				.catch((err) => {
+					console.warn(err);
+					
+					this.setState({ loading: false });
+				});
+		}
 	};
 	render() {
 		let buttonOrNot = (
@@ -218,7 +249,9 @@ class RegisterScreen extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onTryRegister: (authData) => dispatch(tryRegister(authData))
+		onTryRegister: (authData) => dispatch(tryRegister(authData)),
+		onLoginError: (error) => dispatch(loginError(error)),
+		onStoreToken: (token, refresh) => dispatch(authStoreToken(token , refresh))
 	};
 };
 

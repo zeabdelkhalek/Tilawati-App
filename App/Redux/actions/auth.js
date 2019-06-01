@@ -27,21 +27,26 @@ export const tryAuth = (authData) => {
 export const tryRegister = (Data) => {
 	return (dispatch) => {
 		const promise = new Promise((resolve, reject) => {
-			addUser(Data)
-				.catch((err) => {
-					reject();
-				})
-				// .then(res => res.json())
-				.then((res) => {
-					if (!res.ok) {
-						dispatch(loginError(res.data[0].message));
+			fetch('https://tilawati-api.herokuapp.com/api/register', {
+				method: 'post',
+				body: JSON.stringify(Data)
+			})
+				.then(res => res.json())
+				.then((prasedRes) => {
+					console.warn('this is ' + prasedRes);
+
+					if (!prasedRes.ok) {
+						dispatch(loginError(prasedRes.data[0].message));
 						reject();
 					} else {
-						console.warn(res.data);
+						console.warn(prasedRes.data);
 
-						dispatch(authStoreToken(res.data.accessToken.token, res.data.accessToken.refreshToken));
+						dispatch(authStoreToken(prasedRes.data.accessToken.token, prasedRes.data.accessToken.refreshToken));
 						resolve();
 					}
+				})
+				.catch((err) => {
+					reject();
 				});
 		});
 		return promise;
@@ -126,7 +131,6 @@ export const authGetUser = () => {
 						console.warn('err');
 						reject(err);
 					});
-					
 			}
 		});
 		return promise;
