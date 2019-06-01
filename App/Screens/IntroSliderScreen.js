@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 	title: {
 		flex : 1 ,
 		fontSize: 30,
-		fontWeight: 'bold',
+		fontFamily : 'Janna LT Bold',
 		color: Colors.primary,
 	},
 	text: {
@@ -58,14 +58,15 @@ const slides = [
 		text: 'يمكن نشر تلاوتك مع متابعيك و أصدقائك ، نل ثواب كل حرف يستنصت و كل قلب يلين لعذوبة صوتك ',
 		image: Images.slideTwo,
 		backgroundColor: Colors.white
-	}
-	// {
-	// 	key: 'somethun1',
-	// 	title: 'Rocket guy',
-	// 	text: "I'm already out of descriptions\n\nLorem ipsum bla bla bla",
-	// 	// image: require('./assets/3.jpg'),
-	// 	backgroundColor: Colors.white
-	// }
+	},
+	{
+		key: 'somethun-dosss',
+		title: 'أعثر على مقرء',
+		text: 'يسهل عليكم التطبيق مهمة البحث عن المقرءين لصلاة التراويح في رمضان  ',
+		image: Images.slideThree,
+		backgroundColor: Colors.white
+	},
+	
 ];
 
 class Slider extends React.Component {
@@ -80,7 +81,7 @@ class Slider extends React.Component {
 					style={styles.skip}
 					onPress={this._onDone}
 				>
-					<Text style={[ styles.title , {fontSize : 20 }] }>تخطي</Text>
+					<Text style={[ styles.title , {fontSize : 20 , fontFamily : 'JannaLT-Regular'}] }></Text>
 				</TouchableOpacity>
 				<Image resizeMode={'contain'}   style={styles.image} source={item.image} />
 				<Text style={styles.title}>{item.title}</Text>
@@ -94,10 +95,16 @@ class Slider extends React.Component {
 	render() {
 		return (
 			<AppIntroSlider
+			nextLabel={'التالي'}
+			doneLabel='إ بدأ'
+			buttonTextStyle={{
+				color : Colors.primary , 
+				fontWeight : 'bold'
+			}}
 				activeDotStyle={styles.activeDots}
 				dotStyle={styles.inactiveDots}
 				renderItem={this._renderItem}
-				showNextButton={false}
+				showNextButton={true}
 				slides={slides}
 				onDone={this._onDone}
 			/>
