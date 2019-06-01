@@ -9,7 +9,7 @@ const api = apisauce.create({
 		'Content-Type': 'application/json'
 	},
 	// 10 second timeout...
-	timeout: 10000
+	timeout: 100000
 });
 
 export const authUser = (email, password) => api.post('login', { email, password });
@@ -17,12 +17,7 @@ export const authUser = (email, password) => api.post('login', { email, password
 export const addUser = (body) =>
 	api.post(
 		'register',
-		{ ...body },
-		{
-			headers: {
-				'Content-Type': 'multipart/form-data'
-			}
-		}
+		{ ...body }
 	);
 
 export const getTilawasService = (token) =>
@@ -66,4 +61,11 @@ export const likeTilawa = (id, token) =>
 			}
 		}
 	);
+
+export const getCurrentUser = (token) => 
+	api.get('auth' , null , {
+		headers: {
+			'Authorization ': `Bearer ${token}`
+		}
+	}) ;
 // let's return back our create method as the default.

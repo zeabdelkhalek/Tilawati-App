@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN, LOGIN_ERROR } from './actionTypes';
-import { authUser, addUser } from '../../Services/Api';
+import { authUser, addUser, getCurrentUser } from '../../Services/Api';
 
 export const tryAuth = (authData) => {
 	return (dispatch) => {
@@ -102,44 +102,34 @@ export const authGetToken = () => {
 			}
 		});
 		return promise;
-		// .catch(err => {
-		//   return AsyncStorage.getItem("ap:auth:refreshToken")
-		//     .then(refreshToken => {
-		//       return fetch(
-		//         "https://securetoken.googleapis.com/v1/token?key=" + API_KEY,
-		//         {
-		//           method: "POST",
-		//           headers: {
-		//             "Content-Type": "application/x-www-form-urlencoded"
-		//           },
-		//           body: "grant_type=refresh_token&refresh_token=" + refreshToken
-		//         }
-		//       );
-		//     })
-		//     .then(res => res.json())
-		//     .then(parsedRes => {
-		//       if (parsedRes.id_token) {
-		//         console.warn("Refresh token worked!");
-		//         dispatch(
-		//           authStoreToken(
-		//             parsedRes.id_token,
-		//             parsedRes.expires_in,
-		//             parsedRes.refresh_token
-		//           )
-		//         );
-		//         return parsedRes.id_token;
-		//       } else {
-		//         dispatch(authClearStorage());
-		//       }
-		//     });
-		// })
-		// .then(token => {
-		//   if (!token) {
-		//     throw new Error();
-		//   } else {
-		//     return token;
-		//   }
-		// });
+	};
+};
+export const authGetUser = () => {
+	return (dispatch, getState) => {
+		const promise = new Promise((resolve, reject) => {
+			const token = getState().auth.token;
+			if (!token) {
+				console.warn('no token');
+				reject();
+			} else {
+				getCurrentUser(token)
+					.then((res) => {
+						if (!res.ok) {
+							console.warn('error !');
+							reject();
+						} else {
+							console.warn(res.data);
+							resolve(res.data.data);
+						}
+					})
+					.catch((err) => {
+						console.warn('err');
+						reject(err);
+					});
+					
+			}
+		});
+		return promise;
 	};
 };
 
