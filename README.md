@@ -1,5 +1,7 @@
 # Tilawati-App
 
+<img src="https://raw.githubusercontent.com/AbdelkhalekESI/Tilawati-App/master/PN877S1.jpg" alt="Tilawati Mockup">
+
 # Getting started 
 
 1 - Install React Native as described at [React Native Website](https://facebook.github.io/react-native/docs/getting-started.html#content)
